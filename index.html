@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gothwad Store | User</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-purple: #bc13fe;
+            --neon-green: #0aff60;
+            --bg-dark: #050507;
+            --surface: #0f0f13;
+            --surface-glass: rgba(20, 20, 25, 0.85);
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --radius: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        body { 
+            background-color: var(--bg-dark); 
+            background-image: radial-gradient(circle at 50% 0%, rgba(0, 243, 255, 0.08), transparent 40%);
+            color: var(--text-main); 
+            font-size: 14px; 
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        /* Utils */
+        .hidden { display: none !important; }
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+
+        /* Header */
+        header {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--surface-glass);
+            backdrop-filter: blur(15px);
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .brand { 
+            font-weight: 700; font-size: 1.3rem; display: flex; align-items: center; gap: 10px; 
+            color: var(--text-main);
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+        }
+        .brand img { width: 32px; height: 32px; border-radius: 8px; object-fit: cover; }
+
+        /* Header Actions */
+        .header-actions { display: flex; gap: 10px; align-items: center; }
+
+        .auth-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer;
+            font-size: 0.85rem; transition: 0.3s;
+        }
+        .auth-btn:hover { border-color: var(--neon-blue); color: var(--neon-blue); }
+
+        .user-avatar {
+            width: 38px; height: 38px; background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: #000; cursor: pointer; box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+        }
+
+        /* User Menu Dropdown */
+        #user-menu {
+            position: absolute; top: 60px; right: 20px;
+            background: #1a1a20; border: 1px solid var(--border);
+            border-radius: 12px; width: 200px; padding: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: none; flex-direction: column; gap: 5px;
+        }
+        #user-menu.show { display: flex; }
+        .menu-item {
+            padding: 10px; border-radius: 8px; color: #ccc; cursor: pointer; display: flex; align-items: center; gap: 10px;
+        }
+        .menu-item:hover { background: rgba(255,255,255,0.05); color: #fff; }
+
+        /* Controls */
+        .controls { padding: 20px; max-width: 800px; margin: 0 auto; }
+        .search-box { position: relative; margin-bottom: 15px; }
+        .search-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+        .search-box input {
+            width: 100%; padding: 12px 12px 12px 45px;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            border-radius: 12px; color: white; outline: none; transition: 0.3s;
+        }
+        .search-box input:focus { border-color: var(--neon-purple); background: rgba(188, 19, 254, 0.05); }
+
+        .filters { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; }
+        .filter-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            color: var(--text-muted); padding: 8px 18px; border-radius: 20px;
+            white-space: nowrap; cursor: pointer; transition: 0.3s;
+        }
+        .filter-btn.active {
+            background: rgba(188, 19, 254, 0.15); color: var(--neon-purple);
+            border-color: var(--neon-purple);
+        }
+
+        /* App List */
+        #app-list { padding: 0 20px; max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+        .app-card {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border);
+            border-radius: 16px; padding: 15px; display: flex; align-items: center; justify-content: space-between;
+            transition: 0.3s;
+        }
+        .card-left { display: flex; align-items: center; gap: 15px; flex: 1; }
+        .app-logo { width: 60px; height: 60px; border-radius: 14px; object-fit: cover; background: #222; }
+        .app-meta h3 { font-size: 1rem; margin-bottom: 4px; color: #fff; }
+        .app-meta p { font-size: 0.8rem; color: var(--text-muted); }
+        .download-btn-sm {
+            background: rgba(0, 243, 255, 0.1); color: var(--neon-blue);
+            border: 1px solid rgba(0, 243, 255, 0.3); padding: 8px 14px; border-radius: 20px;
+            font-weight: 600; font-size: 0.8rem; cursor: pointer;
+        }
+
+        /* GENERIC MODAL (Login / Submit App) */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+            z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal-box {
+            background: #121216; border: 1px solid var(--neon-blue);
+            width: 100%; max-width: 400px; padding: 25px; border-radius: 20px;
+            position: relative; box-shadow: 0 0 30px rgba(0, 243, 255, 0.15);
+            animation: popIn 0.3s ease;
+        }
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .modal-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; text-align: center; color: #fff; }
+        
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; color: var(--text-muted); margin-bottom: 5px; font-size: 0.9rem; }
+        .input-group input, .input-group textarea, .input-group select {
+            width: 100%; padding: 12px; background: #000; border: 1px solid #333;
+            border-radius: 10px; color: white; outline: none;
+        }
+        .input-group input:focus { border-color: var(--neon-blue); }
+
+        .action-btn {
+            width: 100%; padding: 12px; background: var(--neon-blue); color: #000;
+            border: none; border-radius: 10px; font-weight: 700; cursor: pointer; margin-top: 10px;
+        }
+        .switch-link { text-align: center; margin-top: 15px; font-size: 0.9rem; color: #ccc; cursor: pointer; }
+        .switch-link span { color: var(--neon-blue); text-decoration: underline; }
+        
+        .close-modal { position: absolute; top: 15px; right: 15px; color: #888; cursor: pointer; font-size: 1.2rem; }
+
+        /* Full Screen Details Modal */
+        #details-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-dark); z-index: 1500; overflow-y: auto; display: none;
+        }
+        .details-content { padding: 20px; max-width: 800px; margin: 0 auto; text-align: center; }
+        .big-logo { width: 100px; height: 100px; border-radius: 24px; margin: 20px 0; box-shadow: 0 0 20px rgba(188, 19, 254, 0.4); }
+        .desc-text { text-align: left; color: #cbd5e1; line-height: 1.6; margin-top: 20px; }
+
+        /* Toast */
+        #toast {
+            visibility: hidden; min-width: 250px; background: #222; border: 1px solid var(--neon-green);
+            color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed;
+            z-index: 3000; bottom: 30px; left: 50%; transform: translateX(-50%);
+        }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="brand" id="header-brand">
+            <i class="fa-brands fa-android" style="color:var(--neon-blue)"></i> Loading...
+        </div>
+        
+        <div class="header-actions">
+            <a href="#" class="auth-btn hidden" id="donate-btn" onclick="openDonate()">Donate</a>
+            
+            <!-- Login Button (Visible when logged out) -->
+            <button class="auth-btn" id="login-trigger" onclick="openAuthModal('login')">
+                <i class="fa-solid fa-user"></i> Login
+            </button>
+            
+            <!-- User Avatar (Visible when logged in) -->
+            <div class="user-avatar hidden" id="user-trigger" onclick="toggleUserMenu()">
+                <i class="fa-solid fa-user"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dropdown Menu -->
+    <div id="user-menu">
+        <div class="menu-item" onclick="openSubmitAppModal()">
+            <i class="fa-solid fa-cloud-arrow-up" style="color:var(--neon-green)"></i> Submit App
+        </div>
+        <div class="menu-item" style="color:#ff4d4d" onclick="logout()">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="controls">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search-input" placeholder="Search apps...">
+        </div>
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterApps('all', this)">All</button>
+            <button class="filter-btn" onclick="filterApps('App', this)">Apps</button>
+            <button class="filter-btn" onclick="filterApps('Game', this)">Games</button>
+        </div>
+    </div>
+
+    <div id="app-list">
+        <div style="text-align:center; padding:40px; color:#666">Loading Store...</div>
+    </div>
+
+    <!-- 1. AUTH MODAL -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal-box">
+            <i class="fa-solid fa-xmark close-modal" onclick="closeModal('auth-modal')"></i>
+            
+            <!-- Login Form -->
+            <div id="login-form">
+                <h2 class="modal-title">Welcome Back</h2>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="l-email" placeholder="user@example.com">
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="l-pass" placeholder="******">
+                </div>
+                <button class="action-btn" onclick="login()">Login</button>
+                <div class="switch-link" onclick="switchAuth('register')">New here? <span>Create Account</span></div>
+            </div>
+
+            <!-- Register Form -->
+            <div id="register-form" class="hidden">
+                <h2 class="modal-title">Create Account</h2>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="r-email" placeholder="user@example.com">
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="r-pass" placeholder="******">
+                </div>
+                <button class="action-btn" onclick="register()">Sign Up</button>
+                <div class="switch-link" onclick="switchAuth('login')">Already have an account? <span>Login</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. SUBMIT APP MODAL -->
+    <div class="modal-overlay" id="submit-modal">
+        <div class="modal-box" style="max-width:500px; max-height:90vh; overflow-y:auto;">
+            <i class="fa-solid fa-xmark close-modal" onclick="closeModal('submit-modal')"></i>
+            <h2 class="modal-title" style="color:var(--neon-green)">Request Publish</h2>
+            <p style="text-align:center; color:#888; margin-bottom:20px; font-size:0.9rem;">
+                Your app will be reviewed by Admin before publishing.
+            </p>
+
+            <div class="input-group">
+                <label>App Title</label>
+                <input type="text" id="s-title" placeholder="App Name">
+            </div>
+            <div class="input-group">
+                <label>Category</label>
+                <select id="s-cat">
+                    <option value="App">App</option>
+                    <option value="Game">Game</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Logo URL</label>
+                <input type="url" id="s-logo" placeholder="https://...">
+            </div>
+            <div class="input-group">
+                <label>Download Link</label>
+                <input type="url" id="s-link" placeholder="APK/Drive Link">
+            </div>
+            <div class="input-group">
+                <label>Short Description</label>
+                <textarea id="s-desc" style="height:80px" placeholder="Describe your app..."></textarea>
+            </div>
+
+            <button class="action-btn" style="background:var(--neon-green)" onclick="submitAppRequest()">Submit for Review</button>
+        </div>
+    </div>
+
+    <!-- 3. APP DETAILS (Full Screen) -->
+    <div id="details-modal">
+        <div style="padding:15px; position:sticky; top:0; background:rgba(0,0,0,0.8); display:flex; justify-content:space-between;">
+            <button onclick="closeDetails()" style="background:none; border:none; color:#fff; font-size:1.5rem;"><i class="fa-solid fa-chevron-down"></i></button>
+            <span style="font-weight:600; padding-top:5px">Details</span>
+            <div style="width:30px"></div>
+        </div>
+        <div class="details-content">
+            <img id="d-logo" class="big-logo">
+            <h1 id="d-title" style="font-size:1.8rem;"></h1>
+            <p id="d-sub" style="color:#888"></p>
+            
+            <button id="d-btn" class="action-btn" style="margin:25px 0; font-size:1.1rem">
+                <i class="fa-solid fa-download"></i> Download
+            </button>
+
+            <h3 style="text-align:left; border-left:3px solid var(--neon-purple); padding-left:10px;">About</h3>
+            <p id="d-desc" class="desc-text"></p>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast">Notification</div>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getDatabase, ref, onValue, push, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD5hl-nbH4z8N5gKWdX3zuY9Sc1UZZr1cw",
+            authDomain: "app-store-838cc.firebaseapp.com",
+            databaseURL: "https://app-store-838cc-default-rtdb.firebaseio.com",
+            projectId: "app-store-838cc",
+            storageBucket: "app-store-838cc.firebasestorage.app",
+            messagingSenderId: "679952030452",
+            appId: "1:679952030452:web:129b6a971d75af8c7cdca1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // Global State
+        let currentUser = null;
+        let allApps = [];
+        let storeUPI = "";
+
+        // --- EXPORT GLOBAL FUNCTIONS ---
+        window.openAuthModal = openAuthModal;
+        window.switchAuth = switchAuth;
+        window.login = login;
+        window.register = register;
+        window.logout = logout;
+        window.toggleUserMenu = toggleUserMenu;
+        window.openSubmitAppModal = openSubmitAppModal;
+        window.submitAppRequest = submitAppRequest;
+        window.closeModal = closeModal;
+        window.closeDetails = closeDetails;
+        window.filterApps = filterApps;
+        window.openDonate = openDonate;
+
+        // --- AUTH LOGIC ---
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user) {
+                document.getElementById('login-trigger').classList.add('hidden');
+                document.getElementById('user-trigger').classList.remove('hidden');
+                closeModal('auth-modal');
+            } else {
+                document.getElementById('login-trigger').classList.remove('hidden');
+                document.getElementById('user-trigger').classList.add('hidden');
+                document.getElementById('user-menu').classList.remove('show');
+            }
+        });
+
+        function openAuthModal(mode) {
+            document.getElementById('auth-modal').style.display = 'flex';
+            switchAuth(mode);
+        }
+
+        function switchAuth(mode) {
+            if(mode === 'login') {
+                document.getElementById('login-form').classList.remove('hidden');
+                document.getElementById('register-form').classList.add('hidden');
+            } else {
+                document.getElementById('login-form').classList.add('hidden');
+                document.getElementById('register-form').classList.remove('hidden');
+            }
+        }
+
+        function login() {
+            const e = document.getElementById('l-email').value;
+            const p = document.getElementById('l-pass').value;
+            if(!e || !p) return showToast('Fill all fields');
+            signInWithEmailAndPassword(auth, e, p)
+                .then(() => showToast('Welcome back!'))
+                .catch(err => showToast(err.message));
+        }
+
+        function register() {
+            const e = document.getElementById('r-email').value;
+            const p = document.getElementById('r-pass').value;
+            if(!e || !p) return showToast('Fill all fields');
+            createUserWithEmailAndPassword(auth, e, p)
+                .then(() => showToast('Account created!'))
+                .catch(err => showToast(err.message));
+        }
+
+        function logout() {
+            signOut(auth).then(() => showToast('Logged out'));
+        }
+
+        function toggleUserMenu() {
+            document.getElementById('user-menu').classList.toggle('show');
+        }
+
+        // --- SUBMIT REQUEST LOGIC ---
+        function openSubmitAppModal() {
+            document.getElementById('user-menu').classList.remove('show');
+            if(!currentUser) return showToast('Please Login First');
+            document.getElementById('submit-modal').style.display = 'flex';
+        }
+
+        function submitAppRequest() {
+            const title = document.getElementById('s-title').value;
+            const cat = document.getElementById('s-cat').value;
+            const logo = document.getElementById('s-logo').value;
+            const link = document.getElementById('s-link').value;
+            const desc = document.getElementById('s-desc').value;
+
+            if(!title || !link) return showToast('Title & Link required');
+
+            const reqData = {
+                userId: currentUser.uid,
+                userEmail: currentUser.email,
+                title, category: cat, logo, downloadLink: link, description: desc,
+                status: 'pending',
+                timestamp: Date.now()
+            };
+
+            // Push to 'requests' node (Admin will read this)
+            push(ref(db, 'requests'), reqData)
+                .then(() => {
+                    showToast('Request Submitted for Review!');
+                    closeModal('submit-modal');
+                    // Reset inputs
+                    document.getElementById('s-title').value = "";
+                    document.getElementById('s-link').value = "";
+                })
+                .catch(err => showToast('Error: ' + err.message));
+        }
+
+        // --- APP STORE LOGIC (View Apps) ---
+        const settingsRef = ref(db, 'settings');
+        onValue(settingsRef, (snap) => {
+            const d = snap.val();
+            if(d) {
+                document.getElementById('header-brand').innerHTML = d.storeLogo ? 
+                    `<img src="${d.storeLogo}"> ${d.storeName}` : 
+                    `<i class="fa-brands fa-android"></i> ${d.storeName || 'Gothwad'}`;
+                storeUPI = d.upiId;
+                if(storeUPI) document.getElementById('donate-btn').classList.remove('hidden');
+            }
+        });
+
+        const appsRef = ref(db, 'apps');
+        onValue(appsRef, (snap) => {
+            const container = document.getElementById('app-list');
+            container.innerHTML = "";
+            const data = snap.val();
+            allApps = [];
+            
+            if(data) {
+                Object.entries(data).forEach(([k,v]) => { v.id = k; allApps.push(v); });
+                renderApps(allApps);
+            } else {
+                container.innerHTML = "<div style='text-align:center; padding:20px; color:#555'>No apps available.</div>";
+            }
+        });
+
+        function renderApps(list) {
+            const container = document.getElementById('app-list');
+            container.innerHTML = "";
+            if(list.length === 0) {
+                container.innerHTML = "<div style='text-align:center; padding:20px; color:#555'>No match found.</div>";
+                return;
+            }
+            list.forEach(app => {
+                const div = document.createElement('div');
+                div.className = 'app-card';
+                div.onclick = () => openDetails(app);
+                div.innerHTML = `
+                    <div class="card-left">
+                        <img src="${app.logo || 'https://via.placeholder.com/60'}" class="app-logo">
+                        <div class="app-meta">
+                            <h3>${app.title}</h3>
+                            <p>${app.category}</p>
+                        </div>
+                    </div>
+                    <button class="download-btn-sm">GET</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // --- UTILS ---
+        function filterApps(cat, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const filtered = allApps.filter(app => {
+                const cMatch = cat === 'all' || app.category === cat;
+                const sMatch = app.title.toLowerCase().includes(search);
+                return cMatch && sMatch;
+            });
+            renderApps(filtered);
+        }
+
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            filterApps(document.querySelector('.filter-btn.active').innerText === 'All' ? 'all' : document.querySelector('.filter-btn.active').innerText, document.querySelector('.filter-btn.active'));
+        });
+
+        function openDetails(app) {
+            document.getElementById('d-logo').src = app.logo || 'https://via.placeholder.com/100';
+            document.getElementById('d-title').innerText = app.title;
+            document.getElementById('d-sub').innerText = app.category;
+            document.getElementById('d-desc').innerText = app.description || "No description.";
+            document.getElementById('d-btn').onclick = () => window.open(app.downloadLink, '_blank');
+            document.getElementById('details-modal').style.display = 'block';
+        }
+
+        function closeDetails() {
+            document.getElementById('details-modal').style.display = 'none';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById("toast");
+            t.innerText = msg; t.className = "show";
+            setTimeout(() => t.className = t.className.replace("show", ""), 3000);
+        }
+        
+        function openDonate() {
+            if(!storeUPI) return;
+            window.location.href = `upi://pay?pa=${storeUPI}&pn=GothwadStore&cu=INR`;
+        }
+    </script>
+</body>
+</html>
