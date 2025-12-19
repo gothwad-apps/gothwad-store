@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gothwad Store | V6</title>
+    <title>Gothwad Store | User</title>
     
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -54,7 +54,7 @@
         }
         .brand { font-weight: 800; font-size: 1.4rem; display: flex; align-items: center; gap: 10px; color: var(--text-main); letter-spacing: -0.5px; }
         .brand img { width: 35px; height: 35px; border-radius: 10px; }
-        .coin-balance { background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; }
+        .coin-balance { background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; cursor: pointer; }
 
         /* --- CAROUSEL --- */
         .carousel-wrapper { padding: 20px 20px 0 20px; }
@@ -76,7 +76,7 @@
         }
         .section-title { font-size: 1.2rem; font-weight: 700; color: #fff; }
         
-        /* APP LIST (Vertical) */
+        /* APP LIST */
         .app-list { padding: 0 20px; display: flex; flex-direction: column; gap: 12px; }
         .app-card {
             background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border);
@@ -88,13 +88,12 @@
         .app-info { flex: 1; min-width: 0; }
         .app-title { font-size: 1rem; font-weight: 600; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .app-sub { font-size: 0.8rem; color: var(--text-muted); }
-        .app-rating { font-size: 0.75rem; color: #fbbf24; margin-top: 4px; }
         .btn-get {
             background: rgba(0, 243, 255, 0.1); color: var(--neon-blue); border: 1px solid rgba(0, 243, 255, 0.2);
             padding: 8px 18px; border-radius: 20px; font-weight: 600; font-size: 0.85rem;
         }
 
-        /* ARCADE GRID (Instant Games) */
+        /* ARCADE GRID */
         .arcade-grid {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 0 20px;
         }
@@ -108,24 +107,21 @@
             background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
             padding: 20px 10px 10px 10px;
         }
-        .game-title { font-size: 0.9rem; font-weight: 700; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .game-title { font-size: 0.9rem; font-weight: 700; color: #fff; }
         .play-icon {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             font-size: 2.5rem; color: #fff; opacity: 0; transition: 0.3s;
             filter: drop-shadow(0 0 10px var(--neon-green));
         }
-        .game-card:active img { transform: scale(1.1); }
         .game-card:active .play-icon { opacity: 1; }
 
-        /* RECENTLY PLAYED (Horizontal) */
+        /* RECENTLY PLAYED */
         .recent-scroll {
             display: flex; gap: 15px; overflow-x: auto; padding: 0 20px;
             scroll-snap-type: x mandatory;
         }
-        .recent-item {
-            min-width: 100px; scroll-snap-align: start; text-align: center;
-        }
-        .recent-thumb { width: 80px; height: 80px; border-radius: 20px; margin-bottom: 8px; border: 2px solid var(--neon-purple); }
+        .cat-chip { background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 15px; white-space: nowrap; color: #ccc; border: 1px solid var(--border); }
+        .cat-chip.active { background: var(--neon-blue); color: #000; border-color: var(--neon-blue); font-weight: 600; }
 
         /* --- BOTTOM NAV --- */
         .nav-bar {
@@ -140,11 +136,10 @@
             color: #555; font-size: 0.7rem; font-weight: 500; width: 25%;
             transition: 0.3s;
         }
-        .nav-item i { font-size: 1.4rem; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .nav-item i { font-size: 1.4rem; transition: 0.3s; }
         .nav-item.active { color: var(--neon-blue); }
-        .nav-item.active.arcade { color: var(--neon-green); } /* Special color for Arcade */
-        .nav-item.active i { transform: translateY(-5px) scale(1.1); }
-        .nav-item.active.arcade i { filter: drop-shadow(0 0 8px var(--neon-green)); }
+        .nav-item.active.arcade { color: var(--neon-green); }
+        .nav-item.active i { transform: translateY(-5px); }
 
         /* --- MODALS --- */
         .modal-overlay {
@@ -167,10 +162,7 @@
             width: 100%; padding: 16px; border-radius: 16px; border: none; font-weight: 700; font-size: 1.1rem;
             margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer;
         }
-        .d-actions { display: flex; justify-content: center; gap: 20px; margin-top: 20px; }
-        .d-action-btn { background: rgba(255,255,255,0.05); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; border: 1px solid var(--border); }
-        .d-action-btn.active { color: var(--neon-red); border-color: var(--neon-red); background: rgba(255, 0, 0, 0.1); }
-
+        
         /* Game Player */
         #game-view {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -183,9 +175,24 @@
             color: #fff; z-index: 5001; display: flex; align-items: center; justify-content: center;
         }
 
-        /* Profile */
+        /* Profile & Forms */
         .profile-header { text-align: center; padding: 40px 20px; background: linear-gradient(180deg, rgba(188, 19, 254, 0.1), transparent); }
         .avatar-circle { width: 90px; height: 90px; background: #333; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #fff; border: 2px solid var(--neon-purple); }
+        
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; color: var(--text-muted); margin-bottom: 5px; font-size: 0.9rem; }
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%; padding: 14px; background: #222; border: 1px solid #444;
+            border-radius: 12px; color: white; outline: none; font-size: 1rem;
+        }
+        .full-btn {
+            width: 100%; padding: 14px; background: var(--neon-blue); color: #000;
+            border: none; border-radius: 12px; font-weight: 700; cursor: pointer;
+        }
+        .dev-box {
+            background: rgba(0, 243, 255, 0.05); border: 1px solid var(--neon-blue);
+            border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center;
+        }
 
     </style>
 </head>
@@ -194,7 +201,7 @@
     <!-- Header -->
     <header>
         <div class="brand" id="brand-area">
-            <i class="fa-brands fa-android" style="color:var(--neon-blue)"></i> Loading...
+            <i class="fa-brands fa-android" style="color:var(--neon-blue)"></i> Gothwad Store
         </div>
         <div class="coin-balance" id="top-auth-btn" onclick="openAuth()">
             <i class="fa-solid fa-user"></i> Login
@@ -211,19 +218,15 @@
         </div>
 
         <!-- Categories -->
-        <div class="section-header">
-            <span class="section-title">Categories</span>
-        </div>
+        <div class="section-header"><span class="section-title">Categories</span></div>
         <div class="recent-scroll" id="cat-list">
-            <div class="cat-chip" style="background:var(--neon-blue); color:#000; padding:8px 15px; border-radius:15px; font-weight:600">All</div>
+            <div class="cat-chip active" onclick="filterApps('all', this)">All</div>
         </div>
 
         <!-- App List -->
-        <div class="section-header">
-            <span class="section-title">Top Apps</span>
-        </div>
+        <div class="section-header"><span class="section-title">Top Apps</span></div>
         <div class="app-list" id="download-list">
-            <div style="text-align:center; padding:30px; color:#666">Connecting...</div>
+            <div style="text-align:center; padding:30px; color:#666">Loading Store...</div>
         </div>
     </div>
 
@@ -236,38 +239,30 @@
 
         <!-- Recently Played -->
         <div id="recent-section" class="hidden">
-            <div class="section-header">
-                <span class="section-title">Jump Back In</span>
-            </div>
+            <div class="section-header"><span class="section-title">Jump Back In</span></div>
             <div class="recent-scroll" id="recent-list"></div>
         </div>
 
         <!-- Game Grid -->
-        <div class="section-header">
-            <span class="section-title">Trending Games</span>
-        </div>
-        <div class="arcade-grid" id="arcade-list">
-            <!-- Games injected here -->
-        </div>
+        <div class="section-header"><span class="section-title">Trending Games</span></div>
+        <div class="arcade-grid" id="arcade-list"></div>
     </div>
 
     <!-- === TAB 3: SEARCH === -->
     <div id="tab-search" class="tab-content" style="padding:20px">
         <div style="background:#1a1a1e; border:1px solid var(--border); border-radius:15px; padding:15px; display:flex; gap:10px;">
             <i class="fa-solid fa-magnifying-glass" style="color:#666"></i>
-            <input type="text" id="search-box" placeholder="Search apps & games..." style="background:transparent; border:none; color:white; width:100%; outline:none; font-size:1rem;">
+            <input type="text" id="search-box" placeholder="Search..." style="background:transparent; border:none; color:white; width:100%; outline:none; font-size:1rem;">
         </div>
         <div class="app-list" id="search-results" style="margin-top:20px;"></div>
     </div>
 
-    <!-- === TAB 4: PROFILE === -->
+    <!-- === TAB 4: PROFILE & DEVELOPER ZONE === -->
     <div id="tab-profile" class="tab-content">
         <div id="profile-content"></div>
         
-        <!-- Favorites Section -->
-        <div class="section-header">
-            <span class="section-title">My Favorites <i class="fa-solid fa-heart" style="color:var(--neon-red)"></i></span>
-        </div>
+        <!-- Favorites -->
+        <div class="section-header"><span class="section-title">Favorites <i class="fa-solid fa-heart" style="color:var(--neon-red)"></i></span></div>
         <div class="app-list" id="fav-list">
             <p style="text-align:center; color:#666; padding:20px;">No favorites yet.</p>
         </div>
@@ -275,46 +270,77 @@
 
     <!-- NAVIGATION -->
     <nav class="nav-bar">
-        <div class="nav-item active" onclick="switchTab('apps', this)">
-            <i class="fa-solid fa-layer-group"></i> Apps
-        </div>
-        <div class="nav-item arcade" onclick="switchTab('arcade', this)">
-            <i class="fa-solid fa-gamepad"></i> Arcade
-        </div>
-        <div class="nav-item" onclick="switchTab('search', this)">
-            <i class="fa-solid fa-magnifying-glass"></i> Search
-        </div>
-        <div class="nav-item" onclick="switchTab('profile', this)">
-            <i class="fa-regular fa-user"></i> Me
-        </div>
+        <div class="nav-item active" onclick="switchTab('apps', this)"><i class="fa-solid fa-layer-group"></i> Apps</div>
+        <div class="nav-item arcade" onclick="switchTab('arcade', this)"><i class="fa-solid fa-gamepad"></i> Arcade</div>
+        <div class="nav-item" onclick="switchTab('search', this)"><i class="fa-solid fa-magnifying-glass"></i> Search</div>
+        <div class="nav-item" onclick="switchTab('profile', this)"><i class="fa-regular fa-user"></i> Me</div>
     </nav>
+
+    <!-- === MODALS === -->
 
     <!-- DETAILS MODAL -->
     <div class="modal-overlay" id="detail-modal">
         <div class="sheet">
             <button onclick="closeModal('detail-modal')" style="position:absolute; top:20px; right:20px; background:none; border:none; color:#666; font-size:1.5rem"><i class="fa-solid fa-xmark"></i></button>
-            
             <div class="d-header">
                 <img id="d-logo" class="d-logo">
                 <h2 id="d-title" style="font-size:1.6rem; margin-bottom:5px;"></h2>
                 <p id="d-sub" style="color:var(--neon-blue)"></p>
-                
-                <div class="d-actions">
-                    <button class="d-action-btn" id="fav-btn" onclick="toggleFav()"><i class="fa-regular fa-heart"></i></button>
-                    <button class="d-action-btn" onclick="shareApp()"><i class="fa-solid fa-share-nodes"></i></button>
+                <div style="display:flex; justify-content:center; gap:10px; margin-top:15px;">
+                    <button id="fav-btn" onclick="toggleFav()" style="padding:10px; background:rgba(255,255,255,0.1); border-radius:50%; border:none; color:white;"><i class="fa-regular fa-heart"></i></button>
+                    <button onclick="shareApp()" style="padding:10px; background:rgba(255,255,255,0.1); border-radius:50%; border:none; color:white;"><i class="fa-solid fa-share-nodes"></i></button>
                 </div>
-
                 <button id="d-main-btn" class="d-btn"></button>
             </div>
-
             <div style="border-top:1px solid var(--border); padding-top:20px;">
                 <h3 style="margin-bottom:10px;">About</h3>
                 <p id="d-desc" style="color:#ccc; line-height:1.5; font-size:0.95rem;"></p>
             </div>
-            
             <h3 style="margin:20px 0 10px 0;">Preview</h3>
             <div id="d-screens" class="recent-scroll"></div>
-            <br><br>
+        </div>
+    </div>
+
+    <!-- SUBMIT APP MODAL -->
+    <div class="modal-overlay" id="submit-modal">
+        <div class="sheet">
+            <h2 style="margin-bottom:20px;">Developer Console</h2>
+            
+            <div class="input-group">
+                <label>Submission Type</label>
+                <select id="s-type" onchange="toggleSubmitFields()">
+                    <option value="download">APK Android App</option>
+                    <option value="instant">HTML5 Instant Game</option>
+                </select>
+            </div>
+
+            <div class="input-group"><label>App/Game Title</label><input type="text" id="s-title"></div>
+            <div class="input-group"><label>Category</label><input type="text" id="s-cat" placeholder="e.g. Action"></div>
+            <div class="input-group"><label>Logo URL</label><input type="url" id="s-logo"></div>
+            
+            <!-- Dynamic Fields -->
+            <div id="field-dl" class="input-group">
+                <label>Direct Download Link</label>
+                <input type="url" id="s-link" placeholder="https://...">
+            </div>
+            <div id="field-game" class="input-group hidden">
+                <label>Game Embed URL / Source</label>
+                <textarea id="s-html" style="height:100px" placeholder="Paste link or code..."></textarea>
+            </div>
+
+            <button class="full-btn" onclick="submitRequest()">Submit for Review</button>
+            <button onclick="closeModal('submit-modal')" style="width:100%; padding:15px; background:none; border:none; color:#666; margin-top:10px;">Cancel</button>
+        </div>
+    </div>
+
+    <!-- AUTH MODAL -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="sheet" style="height:auto; padding-bottom:50px;">
+            <h2>Login</h2>
+            <input type="email" id="l-email" placeholder="Email" style="width:100%; padding:15px; margin-bottom:10px; background:#222; border:none; border-radius:12px; color:white;">
+            <input type="password" id="l-pass" placeholder="Password" style="width:100%; padding:15px; margin-bottom:10px; background:#222; border:none; border-radius:12px; color:white;">
+            <button class="d-btn" style="background:var(--neon-blue); color:#000;" onclick="doAuth()">Login / Register</button>
+            <button onclick="closeModal('auth-modal')" style="width:100%; padding:15px; background:none; border:none; color:#666; margin-top:10px;">Close</button>
         </div>
     </div>
 
@@ -324,19 +350,7 @@
         <iframe id="game-frame" sandbox="allow-scripts allow-same-origin allow-pointer-lock allow-forms"></iframe>
     </div>
 
-    <!-- AUTH MODAL -->
-    <div class="modal-overlay" id="auth-modal">
-        <div class="sheet" style="height:auto; padding-bottom:50px;">
-            <h2>Login to Gothwad</h2>
-            <p style="color:#888; margin-bottom:20px;">Save favorites & submit apps.</p>
-            <input type="email" id="l-email" placeholder="Email" style="width:100%; padding:15px; margin-bottom:10px; background:#222; border:none; border-radius:12px; color:white;">
-            <input type="password" id="l-pass" placeholder="Password" style="width:100%; padding:15px; margin-bottom:10px; background:#222; border:none; border-radius:12px; color:white;">
-            <button class="d-btn" style="background:var(--neon-blue); color:#000;" onclick="doAuth()">Continue</button>
-            <button onclick="closeModal('auth-modal')" style="width:100%; padding:15px; background:none; border:none; color:#666; margin-top:10px;">Cancel</button>
-        </div>
-    </div>
-
-    <!-- FIREBASE -->
+    <!-- Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -365,15 +379,15 @@
         let recentGames = JSON.parse(localStorage.getItem('recents')) || [];
 
         // --- EXPORTS ---
-        window.switchTab = switchTab;
-        window.openDetails = openDetails;
+        window.switchTab = switchTab; window.openDetails = openDetails;
         window.closeModal = (id) => document.getElementById(id).style.display = 'none';
         window.openAuth = () => document.getElementById('auth-modal').style.display = 'flex';
-        window.doAuth = doAuth;
-        window.logout = () => signOut(auth);
-        window.toggleFav = toggleFav;
-        window.shareApp = shareApp;
-        window.closeGame = closeGame;
+        window.doAuth = doAuth; window.logout = () => signOut(auth);
+        window.toggleFav = toggleFav; window.shareApp = shareApp; window.closeGame = closeGame;
+        window.openSubmit = () => document.getElementById('submit-modal').style.display = 'flex';
+        window.submitRequest = submitRequest;
+        window.toggleSubmitFields = toggleSubmitFields;
+        window.filterApps = filterApps;
 
         // --- AUTH ---
         onAuthStateChanged(auth, u => {
@@ -384,13 +398,8 @@
         async function doAuth() {
             const e = document.getElementById('l-email').value;
             const p = document.getElementById('l-pass').value;
-            try {
-                await signInWithEmailAndPassword(auth, e, p);
-                closeModal('auth-modal');
-            } catch(err) {
-                try { await createUserWithEmailAndPassword(auth, e, p); closeModal('auth-modal'); }
-                catch(e2) { alert(e2.message); }
-            }
+            try { await signInWithEmailAndPassword(auth, e, p); closeModal('auth-modal'); }
+            catch(err) { try { await createUserWithEmailAndPassword(auth, e, p); closeModal('auth-modal'); } catch(e2) { alert(e2.message); } }
         }
 
         function updateProfileUI() {
@@ -403,7 +412,12 @@
                     <div class="profile-header">
                         <div class="avatar-circle">${user.email[0].toUpperCase()}</div>
                         <h2>${user.email.split('@')[0]}</h2>
-                        <button onclick="logout()" style="background:#333; color:white; border:none; padding:8px 20px; border-radius:20px; margin-top:10px;">Logout</button>
+                        <div class="dev-box">
+                            <h3 style="color:var(--neon-blue); margin-bottom:5px;">Developer Zone</h3>
+                            <p style="font-size:0.8rem; color:#aaa; margin-bottom:15px;">Publish your own APKs or Games</p>
+                            <button class="full-btn" onclick="openSubmit()"><i class="fa-solid fa-cloud-arrow-up"></i> Submit New App</button>
+                        </div>
+                        <button onclick="logout()" style="background:#333; color:white; border:none; padding:10px 30px; border-radius:20px; margin-top:20px;">Logout</button>
                     </div>
                 `;
             } else {
@@ -412,14 +426,50 @@
                     <div class="profile-header">
                         <div class="avatar-circle"><i class="fa-solid fa-ghost"></i></div>
                         <h2>Guest</h2>
-                        <button onclick="openAuth()" style="background:var(--neon-blue); color:black; border:none; padding:10px 30px; border-radius:20px; margin-top:10px; font-weight:700">Login / Sign Up</button>
+                        <div class="dev-box" style="border-color:#444;">
+                            <h3>Become a Developer</h3>
+                            <p style="font-size:0.8rem; color:#aaa; margin-bottom:15px;">Login to publish apps to Gothwad Store</p>
+                            <button class="full-btn" style="background:#333" onclick="openAuth()">Login to Submit</button>
+                        </div>
                     </div>
                 `;
             }
             renderFavorites();
         }
 
-        // --- DATA LOADING ---
+        // --- SUBMISSION LOGIC ---
+        function toggleSubmitFields() {
+            const type = document.getElementById('s-type').value;
+            if(type === 'instant') {
+                document.getElementById('field-dl').classList.add('hidden');
+                document.getElementById('field-game').classList.remove('hidden');
+            } else {
+                document.getElementById('field-dl').classList.remove('hidden');
+                document.getElementById('field-game').classList.add('hidden');
+            }
+        }
+
+        function submitRequest() {
+            if(!user) return alert("Login required");
+            const title = document.getElementById('s-title').value;
+            const type = document.getElementById('s-type').value;
+            if(!title) return alert("Title required");
+
+            const data = {
+                title, category: document.getElementById('s-cat').value,
+                logo: document.getElementById('s-logo').value,
+                userEmail: user.email,
+                downloadLink: (type === 'download' ? document.getElementById('s-link').value : ""),
+                description: (type === 'instant' ? document.getElementById('s-html').value : "") // Storing code in description for request
+            };
+            
+            push(ref(db, 'requests'), data).then(() => {
+                alert("Submission Sent! Admin will review it.");
+                closeModal('submit-modal');
+            });
+        }
+
+        // --- DATA LOAD ---
         onValue(ref(db, 'settings'), snap => {
             const d = snap.val();
             if(d && d.storeName) document.getElementById('brand-area').innerHTML = d.storeLogo ? `<img src="${d.storeLogo}"> ${d.storeName}` : d.storeName;
@@ -432,7 +482,6 @@
                 document.getElementById('carousel-el').style.display = 'block';
                 track.innerHTML = "";
                 Object.values(d).forEach(b => track.innerHTML += `<div class="slide"><img src="${b.url}"></div>`);
-                setInterval(() => { /* simple slide logic if needed */ }, 3000);
             }
         });
 
@@ -440,77 +489,48 @@
             const d = snap.val();
             const dlList = document.getElementById('download-list');
             const arList = document.getElementById('arcade-list');
-            const catList = document.getElementById('cat-list'); // For dynamic categories
-            
-            allData = [];
-            dlList.innerHTML = "";
-            arList.innerHTML = "";
-            
+            const catList = document.getElementById('cat-list');
+            allData = []; dlList.innerHTML = ""; arList.innerHTML = "";
             const cats = new Set();
 
             if(d) {
                 Object.entries(d).forEach(([k,v]) => {
-                    v.id = k;
-                    allData.push(v);
-                    cats.add(v.category);
-
+                    v.id = k; allData.push(v); cats.add(v.category);
                     if(v.appType === 'instant') {
-                        // ARCADE GAME
-                        arList.innerHTML += `
-                            <div class="game-card" onclick="openDetails('${k}')">
-                                <img src="${v.logo}">
-                                <div class="game-overlay">
-                                    <div class="game-title">${v.title}</div>
-                                </div>
-                                <i class="fa-solid fa-play play-icon"></i>
-                            </div>
-                        `;
+                        arList.innerHTML += `<div class="game-card" onclick="openDetails('${k}')"><img src="${v.logo}"><div class="game-overlay"><div class="game-title">${v.title}</div></div><i class="fa-solid fa-play play-icon"></i></div>`;
                     } else {
-                        // DOWNLOAD APP
-                        dlList.innerHTML += `
-                            <div class="app-card" onclick="openDetails('${k}')">
-                                <img src="${v.logo}" class="app-logo">
-                                <div class="app-info">
-                                    <div class="app-title">${v.title}</div>
-                                    <div class="app-sub">${v.category}</div>
-                                    <div class="app-rating"><i class="fa-solid fa-star"></i> 4.8</div>
-                                </div>
-                                <button class="btn-get">GET</button>
-                            </div>
-                        `;
+                        dlList.innerHTML += `<div class="app-card" onclick="openDetails('${k}')"><img src="${v.logo}" class="app-logo"><div class="app-info"><div class="app-title">${v.title}</div><div class="app-sub">${v.category}</div></div><button class="btn-get">GET</button></div>`;
                     }
                 });
-                
-                // Render Categories
-                cats.forEach(c => {
-                    catList.innerHTML += `<div class="cat-chip" style="background:rgba(255,255,255,0.1); padding:8px 15px; border-radius:15px;">${c}</div>`;
-                });
+                cats.forEach(c => catList.innerHTML += `<div class="cat-chip" onclick="filterApps('${c}', this)">${c}</div>`);
             }
-            renderRecent();
-            renderFavorites();
+            renderRecent(); renderFavorites();
         });
+
+        function filterApps(cat, el) {
+            document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            const dlList = document.getElementById('download-list');
+            dlList.innerHTML = "";
+            const filtered = cat === 'all' ? allData.filter(x => x.appType !== 'instant') : allData.filter(x => x.appType !== 'instant' && x.category === cat);
+            filtered.forEach(v => {
+                dlList.innerHTML += `<div class="app-card" onclick="openDetails('${v.id}')"><img src="${v.logo}" class="app-logo"><div class="app-info"><div class="app-title">${v.title}</div><div class="app-sub">${v.category}</div></div><button class="btn-get">GET</button></div>`;
+            });
+        }
 
         // --- SEARCH ---
         document.getElementById('search-box').addEventListener('input', e => {
             const val = e.target.value.toLowerCase();
             const list = document.getElementById('search-results');
             list.innerHTML = "";
-            
             const res = allData.filter(a => a.title.toLowerCase().includes(val));
-            res.forEach(v => {
-                list.innerHTML += `
-                    <div class="app-card" onclick="openDetails('${v.id}')">
-                        <img src="${v.logo}" class="app-logo">
-                        <div class="app-info"><div class="app-title">${v.title}</div></div>
-                    </div>`;
-            });
+            res.forEach(v => list.innerHTML += `<div class="app-card" onclick="openDetails('${v.id}')"><img src="${v.logo}" class="app-logo"><div class="app-info"><div class="app-title">${v.title}</div></div></div>`);
         });
 
-        // --- DETAILS & LOGIC ---
+        // --- DETAILS ---
         function openDetails(id) {
             currentApp = allData.find(x => x.id === id);
             if(!currentApp) return;
-
             document.getElementById('d-title').innerText = currentApp.title;
             document.getElementById('d-logo').src = currentApp.logo;
             document.getElementById('d-sub').innerText = currentApp.category;
@@ -518,114 +538,58 @@
             
             const btn = document.getElementById('d-main-btn');
             const favBtn = document.getElementById('fav-btn');
-            
-            // Set Fav State
-            if(favorites.includes(id)) favBtn.classList.add('active');
-            else favBtn.classList.remove('active');
+            if(favorites.includes(id)) favBtn.style.color = "var(--neon-red)"; else favBtn.style.color = "white";
 
-            // Button Logic
             if(currentApp.appType === 'instant') {
                 btn.innerHTML = `<i class="fa-solid fa-gamepad"></i> PLAY NOW`;
-                btn.style.background = "var(--neon-green)";
-                btn.style.color = "#000";
+                btn.style.background = "var(--neon-green)"; btn.style.color = "#000";
                 btn.onclick = () => launchGame(currentApp);
             } else {
                 btn.innerHTML = "DOWNLOAD APK";
-                btn.style.background = "var(--neon-blue)";
-                btn.style.color = "#000";
+                btn.style.background = "var(--neon-blue)"; btn.style.color = "#000";
                 btn.onclick = () => window.open(currentApp.downloadLink);
             }
-
-            // Screens
-            const sc = document.getElementById('d-screens');
-            sc.innerHTML = "";
-            if(currentApp.screenshots) {
-                currentApp.screenshots.forEach(s => sc.innerHTML += `<img src="${s}" style="height:200px; border-radius:10px; margin-right:10px;">`);
-            }
-
+            const sc = document.getElementById('d-screens'); sc.innerHTML = "";
+            if(currentApp.screenshots) currentApp.screenshots.forEach(s => sc.innerHTML += `<img src="${s}" style="height:200px; border-radius:10px; margin-right:10px;">`);
             document.getElementById('detail-modal').style.display = 'flex';
         }
 
         function launchGame(app) {
-            // Save to recent
-            if(!recentGames.includes(app.id)) {
-                recentGames.unshift(app.id);
-                if(recentGames.length > 5) recentGames.pop();
-                localStorage.setItem('recents', JSON.stringify(recentGames));
-                renderRecent();
-            }
-
+            if(!recentGames.includes(app.id)) { recentGames.unshift(app.id); if(recentGames.length > 5) recentGames.pop(); localStorage.setItem('recents', JSON.stringify(recentGames)); renderRecent(); }
             document.getElementById('game-view').style.display = 'block';
-            document.getElementById('game-frame').srcdoc = `
-                <style>body{margin:0;overflow:hidden;background:#000;display:flex;justify-content:center;align-items:center;height:100vh}</style>
-                ${app.htmlSource}
-            `;
+            document.getElementById('game-frame').srcdoc = `<style>body{margin:0;overflow:hidden;background:#000;display:flex;justify-content:center;align-items:center;height:100vh}</style>${app.htmlSource}`;
         }
-
-        function closeGame() {
-            document.getElementById('game-view').style.display = 'none';
-            document.getElementById('game-frame').srcdoc = "";
-        }
+        function closeGame() { document.getElementById('game-view').style.display = 'none'; document.getElementById('game-frame').srcdoc = ""; }
 
         function toggleFav() {
             if(!currentApp) return;
             const id = currentApp.id;
             const btn = document.getElementById('fav-btn');
-            
-            if(favorites.includes(id)) {
-                favorites = favorites.filter(x => x !== id);
-                btn.classList.remove('active');
-            } else {
-                favorites.push(id);
-                btn.classList.add('active');
-            }
-            localStorage.setItem('favs', JSON.stringify(favorites));
-            renderFavorites();
+            if(favorites.includes(id)) { favorites = favorites.filter(x => x !== id); btn.style.color = "white"; }
+            else { favorites.push(id); btn.style.color = "var(--neon-red)"; }
+            localStorage.setItem('favs', JSON.stringify(favorites)); renderFavorites();
         }
-
-        function shareApp() {
-            const url = window.location.href; // In real app, deep link
-            navigator.clipboard.writeText(url).then(() => alert("Link Copied!"));
-        }
+        function shareApp() { navigator.clipboard.writeText(window.location.href); alert("Link Copied!"); }
 
         function renderRecent() {
             const list = document.getElementById('recent-list');
             const sect = document.getElementById('recent-section');
             if(recentGames.length === 0) { sect.classList.add('hidden'); return; }
-            
-            sect.classList.remove('hidden');
-            list.innerHTML = "";
+            sect.classList.remove('hidden'); list.innerHTML = "";
             recentGames.forEach(id => {
                 const g = allData.find(x => x.id === id);
-                if(g) {
-                    list.innerHTML += `
-                        <div class="recent-item" onclick="openDetails('${id}')">
-                            <img src="${g.logo}" class="recent-thumb">
-                            <div style="font-size:0.8rem">${g.title}</div>
-                        </div>
-                    `;
-                }
+                if(g) list.innerHTML += `<div style="text-align:center; min-width:90px;" onclick="openDetails('${id}')"><img src="${g.logo}" style="width:70px; height:70px; border-radius:18px; margin-bottom:5px; border:2px solid var(--neon-purple);"><div style="font-size:0.8rem">${g.title}</div></div>`;
             });
         }
-
         function renderFavorites() {
             const list = document.getElementById('fav-list');
             if(favorites.length === 0) { list.innerHTML="<p style='text-align:center;color:#666'>No favorites.</p>"; return; }
             list.innerHTML = "";
             favorites.forEach(id => {
                 const g = allData.find(x => x.id === id);
-                if(g) {
-                    list.innerHTML += `
-                        <div class="app-card" onclick="openDetails('${id}')">
-                            <img src="${g.logo}" class="app-logo">
-                            <div class="app-info"><div class="app-title">${g.title}</div></div>
-                            <i class="fa-solid fa-heart" style="color:var(--neon-red)"></i>
-                        </div>
-                    `;
-                }
+                if(g) list.innerHTML += `<div class="app-card" onclick="openDetails('${id}')"><img src="${g.logo}" class="app-logo"><div class="app-info"><div class="app-title">${g.title}</div></div><i class="fa-solid fa-heart" style="color:var(--neon-red)"></i></div>`;
             });
         }
-
         function switchTab(t, el) {
             document.querySelectorAll('.tab-content').forEach(x => x.classList.remove('active'));
             document.getElementById('tab-'+t).classList.add('active');
